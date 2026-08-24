@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>진단</title>
+<style>
+  body{font-family:-apple-system,sans-serif;padding:20px;font-size:15px;line-height:1.6;background:#fff;color:#111}
+  h1{font-size:18px;margin:0 0 16px}
+  .test{border:1px solid #ddd;border-radius:10px;padding:14px;margin-bottom:12px}
+  .name{font-weight:700;margin-bottom:6px}
+  .status{font-weight:700}
+  .ok{color:#0a7a2f}
+  .fail{color:#c0392b}
+  .pending{color:#888}
+  .detail{margin-top:6px;font-size:13px;color:#444;word-break:break-all;white-space:pre-wrap}
+  button{margin-top:16px;padding:12px 20px;font-size:15px;border-radius:8px;border:none;background:#111;color:#fff}
+</style>
+</head>
+<body>
+<h1>네트워크 진단</h1>
+<div id="results"></div>
+<button id="run">다시 실행</button>
+
+<script>
+const tests = [
+  {
+    name: '① 같은 사이트 GET (fetch)',
+    run: () => fetch('/api/parse-promo', { method:'GET' })
+      .then(r => r.text().then(t => `status ${r.status}: ${t}`))
+  },
+  {
+    name: '② 같은 사이트 POST, 작은 데이터 (fetch)',
+    run: () => fetch('/api/parse-promo', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ test: true })
+    }).then(r => r.text().then(t => `status ${r.status}: ${t}`))
+  },
+  {
+    name: '③ 외부 사이트 POST (httpbin.org, 이 앱과 무관)',
+    run: () => fetch('https://httpbin.org/post', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ test: true })
+    }).then(r => r.text().then(t => `status ${r.status}: 성공 (앞부분) ${t.slice(0,80)}...`))
+  },
+  {
+    name: '④ 외부 사이트 GET (공공 API, 이 앱과 무관)',
+    run: () => fetch('https://api.github.com/zen')
+      .then(r => r.text().then(t => `status ${r.status}: ${t}`))
+  }
+];
+
+async function runAll(){
+  const el = document.getElementById('results');
+  el.innerHTML = tests.map((t,i) => `
+    <div class="test" id="t${i}">
+      <div class="name">${t.name}</div>
+      <div class="status pending" id="s${i}">실행 중…</div>
+      <div class="detail" id="d${i}"></div>
+    </div>`).join('');
+
+  for(let i=0;i<tests.length;i++){
+    try{
+      const result = await tests[i].run();
+      document.getElementById('s'+i).textContent = '✅ 성공';
+      document.getElementById('s'+i).className = 'status ok';
+      document.getElementById('d'+i).textContent = result;
+    }catch(err){
+      document.getElementById('s'+i).textContent = '❌ 실패: ' + err.message;
+      document.getElementById('s'+i).className = 'status fail';
+      document.getElementById('d'+i).textContent = String(err.stack || err);
+    }
+  }
+}
+
+document.getElementById('run').onclick = runAll;
+runAll();
+</script>
+</body>
+</html>
