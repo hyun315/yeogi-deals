@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>여기 특가 — 자카르타 · 발리</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+<style>
+:root{
+  --ink:#14302A;
+  --ink-soft:#5E7269;
+  --bg:#E7EDE6;
+  --card:#FFFFFF;
+  --line:#D2DCD0;
+  --gold:#A66F12;
+  --gold-bg:#FBF2DF;
+  --alert:#A03A24;
+  --alert-bg:#FBEDE9;
+  --radius:14px;
+  --shadow:0 1px 0 rgba(20,48,42,.06), 0 6px 18px -12px rgba(20,48,42,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"tnum";
+  padding-bottom:calc(96px + env(safe-area-inset-bottom));
+}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+
+/* ---------- header ---------- */
+.top{
+  position:sticky;top:0;z-index:20;
+  background:var(--ink);color:#EAF1E8;
+  padding:calc(14px + env(safe-area-inset-top)) 16px 0;
+}
+.eyebrow{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:#8FA89A;margin:0 0 4px;
+}
+.wordmark{
+  margin:0;font-size:23px;font-weight:800;letter-spacing:-.02em;
+  display:flex;align-items:baseline;gap:9px;
+}
+.wordmark span{font-size:12px;font-weight:500;color:#9DB4A6;letter-spacing:0}
+.rate-line{
+  margin:7px 0 0;font-size:11.5px;color:#8FA89A;
+}
+.rate-line button{
+  background:none;border:none;color:#CFE0C9;font-size:11.5px;
+  text-decoration:underline;text-underline-offset:2px;padding:2px 0;
+}
+.tabs{display:flex;gap:22px;margin-top:12px}
+.tab{
+  background:none;border:none;padding:0 0 11px;
+  color:#8FA89A;font-size:16px;font-weight:600;letter-spacing:-.01em;
+  border-bottom:2.5px solid transparent;
+}
+.tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--gold)}
+.areas{
+  display:flex;gap:6px;padding:11px 16px;
+  background:var(--bg);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:19;
+}
+.chip{
+  border:1px solid var(--line);background:#fff;color:var(--ink-soft);
+  border-radius:999px;padding:6px 13px;font-size:13px;font-weight:500;
+}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* ---------- list ---------- */
+.list{padding:14px 16px 0;display:flex;flex-direction:column;gap:12px}
+.deal{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+}
+.deal-head{padding:14px 15px 0}
+.venue-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.venue{margin:0;font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.area-tag{
+  flex:none;font-size:11px;font-weight:600;color:var(--ink-soft);
+  border:1px solid var(--line);border-radius:5px;padding:3px 7px;
+}
+.headline{margin:5px 0 0;font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+
+/* signature: the total-price block */
+.total{
+  margin:13px 15px 0;padding:11px 0 11px 13px;
+  border-left:3px solid var(--gold);background:var(--gold-bg);
+  border-radius:0 8px 8px 0;
+}
+.total-label{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--gold);margin:0}
+.total-idr{
+  margin:2px 0 0;font-size:26px;font-weight:800;letter-spacing:-.035em;
+  font-variant-numeric:tabular-nums;line-height:1.15;
+}
+.total-krw{margin:1px 0 0;font-size:13px;font-weight:500;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.incl{margin:7px 0 0;font-size:12px;color:var(--ink-soft);line-height:1.5}
+.incl b{color:var(--ink);font-weight:600}
+.no-total{
+  margin:13px 15px 0;padding:11px 13px;font-size:13px;line-height:1.5;
+  border:1px dashed #C8B49C;border-radius:9px;background:#FCF8F1;color:#7A6242;
+}
+.unclear{
+  margin:9px 15px 0;padding:9px 12px;background:var(--alert-bg);
+  border-radius:8px;font-size:12px;line-height:1.55;color:var(--alert);
+}
+.unclear b{font-weight:700}
+.conds{display:flex;flex-wrap:wrap;gap:5px;padding:12px 15px 0}
+.cond{
+  font-size:11.5px;color:var(--ink-soft);background:#F1F5F0;
+  border-radius:5px;padding:4px 8px;
+}
+.foot{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  margin-top:13px;padding:10px 15px;border-top:1px solid var(--line);background:#FAFBFA;
+}
+.valid{font-size:12px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.valid.soon{color:var(--alert)}
+.valid small{display:block;font-weight:500;color:var(--ink-soft);font-size:11px;margin-top:1px}
+.acts{display:flex;gap:4px;flex:none}
+.icon-btn{
+  border:1px solid var(--line);background:#fff;border-radius:7px;
+  padding:5px 9px;font-size:12px;color:var(--ink-soft);
+}
+.demo-flag{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;
+  background:#E4EAE2;color:var(--ink-soft);padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:2px;
+}
+
+/* ---------- empty ---------- */
+.empty{padding:60px 30px;text-align:center}
+.empty h2{margin:0 0 7px;font-size:17px;font-weight:700;letter-spacing:-.02em}
+.empty p{margin:0 0 18px;font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.ghost{
+  border:1px solid var(--ink);background:none;color:var(--ink);
+  border-radius:9px;padding:9px 16px;font-size:13.5px;font-weight:600;
+}
+
+/* ---------- fab ---------- */
+.fab{
+  position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(20px + env(safe-area-inset-bottom));z-index:30;
+  background:var(--ink);color:#fff;border:none;border-radius:999px;
+  padding:14px 24px;font-size:15px;font-weight:700;letter-spacing:-.01em;
+  box-shadow:0 8px 24px -8px rgba(20,48,42,.6);
+}
+
+/* ---------- sheet ---------- */
+.scrim{
+  position:fixed;inset:0;background:rgba(12,26,22,.55);z-index:40;
+  display:none;align-items:flex-end;
+}
+.scrim.on{display:flex}
+.sheet{
+  background:var(--bg);width:100%;max-height:92vh;overflow-y:auto;
+  border-radius:18px 18px 0 0;padding:18px 16px calc(26px + env(safe-area-inset-bottom));
+  animation:rise .22s ease-out;
+}
+@keyframes rise{from{transform:translateY(18px);opacity:.6}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+.sheet h2{margin:0 0 3px;font-size:18px;font-weight:800;letter-spacing:-.025em}
+.sheet .sub{margin:0 0 16px;font-size:13px;color:var(--ink-soft);line-height:1.55}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:5px}
+.field input,.field textarea,.field select{
+  width:100%;border:1px solid var(--line);border-radius:9px;background:#fff;
+  padding:10px 11px;font-size:15px;font-family:inherit;color:var(--ink);
+}
+.field textarea{min-height:62px;resize:vertical;line-height:1.5}
+.two{display:flex;gap:9px}
+.two .field{flex:1}
+.hint{font-size:11.5px;color:var(--ink-soft);margin:5px 0 0;line-height:1.5}
+.sheet-acts{display:flex;gap:9px;margin-top:18px}
+.primary{
+  flex:1;background:var(--ink);color:#fff;border:none;border-radius:11px;
+  padding:14px;font-size:15px;font-weight:700;
+}
+.secondary{
+  flex:none;background:none;border:1px solid var(--line);color:var(--ink-soft);
+  border-radius:11px;padding:14px 18px;font-size:15px;font-weight:600;
+}
+.thumb{
+  width:100%;border-radius:11px;border:1px solid var(--line);
+  margin-bottom:14px;display:block;
+}
+.status{
+  display:flex;align-items:center;gap:10px;padding:16px 0;
+  font-size:14px;color:var(--ink-soft);
+}
+.spin{
+  width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--ink);
+  border-radius:50%;animation:sp .7s linear infinite;flex:none;
+}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
+.err{
+  background:var(--alert-bg);color:var(--alert);border-radius:9px;
+  padding:12px 13px;font-size:13px;line-height:1.55;margin-bottom:14px;
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="eyebrow">Jakarta · Bali</p>
+  <h1 class="wordmark">여기 특가 <span>골프 · 호캉스</span></h1>
+  <p class="rate-line">환율 1,000 Rp = <button type="button" id="rateBtn">86원</button> · 만료된 딜은 자동으로 숨겨집니다</p>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-cat="golf" aria-selected="true">골프</button>
+    <button class="tab" role="tab" data-cat="hotel" aria-selected="false">호텔 · 리조트</button>
+  </div>
+</header>
+
+<div class="areas">
+  <button class="chip" data-area="all" aria-pressed="true">전체</button>
+  <button class="chip" data-area="자카르타" aria-pressed="false">자카르타</button>
+  <button class="chip" data-area="발리" aria-pressed="false">발리</button>
+</div>
+
+<main class="list" id="list"></main>
+
+<button class="fab" id="fab">＋ 포스터 등록</button>
+<input type="file" id="file" accept="image/*" hidden>
+
+<div class="scrim" id="scrim">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+/* ============================================================
+   여기 특가 — v1
+   저장: localStorage (공개 배포 시 Firestore로 교체)
+   파싱: Claude vision — 포스터에 없는 정보는 만들어내지 않음
+   ============================================================ */
+
+const KEY = 'yeogi-deals-v1';
+const state = { cat:'golf', area:'all', rate:86, cards:[], demo:false };
+
+/* ---------- storage ---------- */
+function load(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(KEY) || '{}');
+    state.cards = raw.cards || [];
+    state.rate = raw.rate || 86;
+  }catch(e){ state.cards = []; }
+}
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({ cards:state.cards.filter(c=>!c.demo), rate:state.rate }));
+  }catch(e){
+    alert('저장 공간이 가득 찼습니다. 오래된 딜을 지우고 다시 시도해 주세요.');
+  }
+}
+
+/* ---------- format ---------- */
+const fmtIdr = n => 'Rp ' + Number(n).toLocaleString('id-ID');
+function fmtKrw(idr){
+  const won = idr * state.rate / 1000;
+  if(won >= 10000) return '약 ' + (won/10000).toFixed(won/10000 >= 100 ? 0 : 1) + '만원';
+  return '약 ' + Math.round(won/1000)*1000 + '원';
+}
+const today = () => new Date().toISOString().slice(0,10);
+function daysLeft(d){
+  return Math.ceil((new Date(d+'T23:59:59') - new Date()) / 86400000);
+}
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+/* ---------- render ---------- */
+function visible(){
+  const t = today();
+  return state.cards
+    .filter(c => c.category === state.cat)
+    .filter(c => state.area === 'all' || c.area === state.area)
+    .filter(c => !c.valid_to || c.valid_to >= t)
+    .sort((a,b) => (a.valid_to||'9999') .localeCompare(b.valid_to||'9999'));
+}
+
+function render(){
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.cat === state.cat));
+  document.querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.area === state.area));
+  document.getElementById('rateBtn').textContent = state.rate + '원';
+
+  const items = visible();
+  const list = document.getElementById('list');
+
+  if(!items.length){
+    const what = state.cat === 'golf' ? '골프 딜' : '호텔 딜';
+    list.innerHTML =
+      '<div class="empty"><h2>아직 등록된 ' + what + '이 없습니다</h2>' +
+      '<p>프로모션 포스터 사진을 등록하면<br>총액이 계산된 카드가 만들어집니다.</p>' +
+      '<button class="ghost" id="demoBtn">예시로 둘러보기</button></div>';
+    const d = document.getElementById('demoBtn');
+    if(d) d.onclick = loadDemo;
+    return;
+  }
+
+  list.innerHTML = items.map(card).join('');
+  list.querySelectorAll('[data-del]').forEach(b => b.onclick = () => removeCard(b.dataset.del));
+  list.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openForm(state.cards.find(c=>c.id===b.dataset.edit)));
+}
+
+function card(c){
+  const dl = c.valid_to ? daysLeft(c.valid_to) : null;
+  const validTxt = c.valid_to
+    ? '~ ' + c.valid_to.slice(5).replace('-','/') + ' 까지<small>' + (dl<=0?'오늘 마감':dl+'일 남음') + '</small>'
+    : '기간 미표기<small>포스터에 없음</small>';
+
+  const money = c.total_price
+    ? '<div class="total"><p class="total-label">' + esc(c.price_basis || '총액') + '</p>' +
+      '<p class="total-idr">' + fmtIdr(c.total_price) + '</p>' +
+      '<p class="total-krw">' + fmtKrw(c.total_price) + '</p>' +
+      (c.includes && c.includes.length ? '<p class="incl"><b>포함</b> ' + esc(c.includes.join(' · ')) + '</p>' : '') +
+      (c.excludes && c.excludes.length ? '<p class="incl"><b>별도</b> ' + esc(c.excludes.join(' · ')) + '</p>' : '') +
+      '</div>'
+    : '<div class="no-total">' +
+      (c.base_price ? '표기가는 ' + fmtIdr(c.base_price) + ' (' + fmtKrw(c.base_price) + '). ' : '') +
+      '추가 요금이 명시되지 않아 총액을 계산하지 않았습니다.</div>';
+
+  const unclear = (c.unclear && c.unclear.length)
+    ? '<div class="unclear"><b>확인 필요</b> · ' + esc(c.unclear.join(' / ')) + '</div>' : '';
+
+  const conds = (c.conditions && c.conditions.length)
+    ? '<div class="conds">' + c.conditions.map(x => '<span class="cond">' + esc(x) + '</span>').join('') + '</div>' : '';
+
+  return '<article class="deal">' +
+    '<div class="deal-head"><div class="venue-row">' +
+    '<h3 class="venue">' + esc(c.venue) + (c.demo ? '<span class="demo-flag">예시</span>' : '') + '</h3>' +
+    '<span class="area-tag">' + esc(c.area) + '</span></div>' +
+    '<p class="headline">' + esc(c.title) + '</p></div>' +
+    money + unclear + conds +
+    '<div class="foot"><div class="valid' + (dl!==null && dl<=7 ? ' soon':'') + '">' + validTxt + '</div>' +
+    '<div class="acts"><button class="icon-btn" data-edit="' + c.id + '">수정</button>' +
+    '<button class="icon-btn" data-del="' + c.id + '">삭제</button></div></div></article>';
+}
+
+function removeCard(id){
+  const c = state.cards.find(x => x.id === id);
+  if(!confirm((c ? c.venue : '이 딜') + ' 딜을 삭제할까요?')) return;
+  state.cards = state.cards.filter(x => x.id !== id);
+  save(); render();
+}
+
+/* ---------- image ---------- */
+function toJpeg(file, maxSide, quality){
+  return new Promise((res, rej) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const s = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const cv = document.createElement('canvas');
+      cv.width = Math.round(img.width * s);
+      cv.height = Math.round(img.height * s);
+      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+      URL.revokeObjectURL(url);
+      res(cv.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('이미지를 열지 못했습니다')); };
+    img.src = url;
+  });
+}
+
+/* ---------- parse ---------- */
+const SYSTEM = `너는 인도네시아(자카르타·발리)의 골프장·호텔 프로모션 포스터를 한국인 거주자용 카드로 정리한다.
+
+절대 규칙:
+1. 포스터에 적혀 있지 않은 정보는 절대 추측하지 않는다. 업계 관행으로 짐작하지 않는다.
+2. total_price는 지불해야 할 모든 구성요소가 포스터에 명시돼 있을 때만 계산한다. 하나라도 불명확하면 null로 두고 그 이유를 unclear에 한국어로 적는다.
+3. "++" 표기는 세금+서비스 21%를 뜻한다. 금액에 ++가 붙어 있으면 21%를 더해 total_price를 만들고, includes에 "세금·서비스 21%"를 넣는다.
+4. 골프는 그린피 외 캐디피·카트·버기·보험·세금이 별도인 경우가 많다. 이 항목들이 포스터에 없으면 total_price를 만들지 말고 unclear에 "캐디·카트 요금 미표기"처럼 적는다.
+5. 연도가 없는 날짜는 오늘 날짜를 기준으로 가장 가까운 미래로 해석한다.
+6. 모든 한국어 출력은 성인 대상의 담백한 문장으로 쓴다.
+
+JSON만 출력한다. 마크다운 백틱, 설명, 서두 금지.
+{
+ "category":"golf"|"hotel",
+ "venue":"업장명(현지 표기 그대로)",
+ "area":"자카르타"|"발리"|"기타",
+ "title":"프로모션 한 줄 한국어 요약(35자 이내)",
+ "base_price":숫자|null,
+ "total_price":숫자|null,
+ "price_basis":"1인 18홀"|"1박 2인"등 한국어,
+ "includes":["그린피","캐디","카트","세금·서비스 21%"],
+ "excludes":["별도 항목"],
+ "unclear":["확인이 필요한 항목"],
+ "conditions":["평일 한정","2인 이상","조식 2인 포함"],
+ "valid_from":"YYYY-MM-DD"|null,
+ "valid_to":"YYYY-MM-DD"|null
+}`;
+
+async function parsePoster(dataUrl){
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json' },
+    body: JSON.stringify({
+      model:'claude-sonnet-4-6',
+      max_tokens:1000,
+      system: SYSTEM + '\n오늘 날짜: ' + today(),
+      messages:[{ role:'user', content:[
+        { type:'image', source:{ type:'base64', media_type:'image/jpeg', data: dataUrl.split(',')[1] } },
+        { type:'text', text:'이 포스터를 위 스키마의 JSON으로 정리해라.' }
+      ]}]
+    })
+  });
+  if(!r.ok) throw new Error('분석 서버가 응답하지 않았습니다 (' + r.status + ')');
+  const d = await r.json();
+  const txt = (d.content || []).map(b => b.text || '').join('').replace(/```json|```/g,'').trim();
+  const m = txt.match(/\{[\s\S]*\}/);
+  if(!m) throw new Error('포스터에서 요금 정보를 읽지 못했습니다');
+  return JSON.parse(m[0]);
+}
+
+/* ---------- sheets ---------- */
+const scrim = document.getElementById('scrim');
+const sheet = document.getElementById('sheet');
+function openSheet(html){ sheet.innerHTML = html; scrim.classList.add('on'); sheet.scrollTop = 0; }
+function closeSheet(){ scrim.classList.remove('on'); sheet.innerHTML = ''; }
+scrim.onclick = e => { if(e.target === scrim) closeSheet(); };
+
+document.getElementById('fab').onclick = () => document.getElementById('file').click();
+document.getElementById('file').onchange = async e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if(!f) return;
+  openSheet('<h2>포스터 읽는 중</h2><p class="sub">요금 구성과 유효기간을 찾고 있습니다.</p><div class="status"><span class="spin"></span>보통 10초쯤 걸립니다</div>');
+  try{
+    const big = await toJpeg(f, 1400, 0.82);
+    const data = await parsePoster(big);
+    data.thumb = await toJpeg(f, 460, 0.5);
+    openForm(data);
+  }catch(err){
+    openSheet('<h2>읽지 못했습니다</h2><div class="err">' + esc(err.message) + '</div>' +
+      '<p class="sub">글자가 선명하게 나오도록 다시 찍거나, 아래에서 직접 입력할 수 있습니다.</p>' +
+      '<div class="sheet-acts"><button class="primary" id="manualBtn">직접 입력</button>' +
+      '<button class="secondary" id="cancelBtn">닫기</button></div>');
+    document.getElementById('manualBtn').onclick = () => openForm({ category: state.cat, area: state.area === 'all' ? '자카르타' : state.area });
+    document.getElementById('cancelBtn').onclick = closeSheet;
+  }
+};
+
+function openForm(d){
+  d = d || {};
+  const arr = k => (d[k] || []).join(', ');
+  openSheet(
+    (d.thumb ? '<img class="thumb" src="' + d.thumb + '" alt="등록할 프로모션 포스터">' : '') +
+    '<h2>' + (d.id ? '딜 수정' : '내용 확인') + '</h2>' +
+    '<p class="sub">읽어온 값이 포스터와 다르면 고쳐 주세요. 포스터에 없는 항목은 비워 두는 편이 낫습니다.</p>' +
+    '<div class="two">' +
+      f('select','category','구분', d.category || 'golf', ['golf:골프','hotel:호텔 · 리조트']) +
+      f('select','area','지역', d.area || '자카르타', ['자카르타:자카르타','발리:발리','기타:기타']) +
+    '</div>' +
+    f('text','venue','업장명', d.venue) +
+    f('text','title','한 줄 요약', d.title) +
+    '<div class="two">' +
+      f('number','base_price','표기가 (Rp)', d.base_price) +
+      f('number','total_price','총액 (Rp)', d.total_price) +
+    '</div>' +
+    '<p class="hint">총액은 실제로 다 내는 금액입니다. 확신이 없으면 비워 두세요 — 카드에 “추가 요금 미표기”로 안내됩니다.</p>' +
+    f('text','price_basis','총액 기준', d.price_basis || (d.category === 'hotel' ? '1박 2인' : '1인 18홀')) +
+    f('text','includes','포함 항목 (쉼표로 구분)', arr('includes')) +
+    f('text','excludes','별도 항목 (쉼표로 구분)', arr('excludes')) +
+    f('text','unclear','확인 필요 (쉼표로 구분)', arr('unclear')) +
+    f('text','conditions','조건 (쉼표로 구분)', arr('conditions')) +
+    '<div class="two">' +
+      f('date','valid_from','시작일', d.valid_from) +
+      f('date','valid_to','종료일', d.valid_to) +
+    '</div>' +
+    '<div class="sheet-acts"><button class="primary" id="okBtn">' + (d.id ? '수정 저장' : '딜 등록') + '</button>' +
+    '<button class="secondary" id="noBtn">취소</button></div>'
+  );
+  document.getElementById('noBtn').onclick = closeSheet;
+  document.getElementById('okBtn').onclick = () => commit(d);
+}
+
+function f(type, name, label, val, opts){
+  const v = val == null ? '' : String(val);
+  let input;
+  if(type === 'select'){
+    input = '<select name="' + name + '">' + opts.map(o => {
+      const [k, t] = o.split(':');
+      return '<option value="' + k + '"' + (k === v ? ' selected' : '') + '>' + t + '</option>';
+    }).join('') + '</select>';
+  } else {
+    input = '<input type="' + type + '" name="' + name + '" value="' + esc(v) + '">';
+  }
+  return '<div class="field"><label>' + label + '</label>' + input + '</div>';
+}
+
+function commit(d){
+  const g = n => { const el = sheet.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
+  const splitList = s => s ? s.split(',').map(x => x.trim()).filter(Boolean) : [];
+  if(!g('venue')){ alert('업장명을 입력해 주세요.'); return; }
+
+  const card = {
+    id: d.id || (Date.now() + '' + Math.random().toString(36).slice(2,6)),
+    category: g('category'), area: g('area'),
+    venue: g('venue'), title: g('title'),
+    base_price: g('base_price') ? Number(g('base_price')) : null,
+    total_price: g('total_price') ? Number(g('total_price')) : null,
+    price_basis: g('price_basis'),
+    includes: splitList(g('includes')), excludes: splitList(g('excludes')),
+    unclear: splitList(g('unclear')), conditions: splitList(g('conditions')),
+    valid_from: g('valid_from') || null, valid_to: g('valid_to') || null,
+    thumb: d.thumb || null
+  };
+  const i = state.cards.findIndex(c => c.id === card.id);
+  if(i >= 0) state.cards[i] = card; else state.cards.unshift(card);
+  state.cat = card.category;
+  save(); closeSheet(); render();
+}
+
+/* ---------- rate ---------- */
+document.getElementById('rateBtn').onclick = () => {
+  const v = prompt('1,000 루피아 = 몇 원인가요?', state.rate);
+  if(v && !isNaN(Number(v))){ state.rate = Number(v); save(); render(); }
+};
+
+/* ---------- demo ---------- */
+function loadDemo(){
+  const d = new Date(Date.now() + 24*86400000).toISOString().slice(0,10);
+  const d2 = new Date(Date.now() + 5*86400000).toISOString().slice(0,10);
+  state.cards = state.cards.concat([
+    { id:'demo1', demo:true, category:'golf', area:'자카르타', venue:'Sample Hills Golf Club',
+      title:'평일 18홀 + 캐디 포함 패키지', base_price:950000, total_price:1385000,
+      price_basis:'1인 18홀', includes:['그린피','캐디','카트','세금·서비스 21%'], excludes:['캐디 팁'],
+      unclear:[], conditions:['월~목','2인 이상','티오프 06:00~10:00'], valid_from:null, valid_to:d },
+    { id:'demo2', demo:true, category:'golf', area:'발리', venue:'Sample Ocean Course',
+      title:'선셋 트와일라잇 9홀', base_price:750000, total_price:null,
+      price_basis:'1인 9홀', includes:[], excludes:[],
+      unclear:['캐디·카트 요금 미표기','세금 포함 여부 미표기'], conditions:['15:00 이후 티오프'], valid_from:null, valid_to:d2 },
+    { id:'demo3', demo:true, category:'hotel', area:'발리', venue:'Sample Beach Resort Seminyak',
+      title:'2박 이상 시 조식 2인 + 스파 크레딧', base_price:1800000, total_price:2178000,
+      price_basis:'1박 2인 (디럭스)', includes:['조식 2인','세금·서비스 21%'], excludes:['공항 픽업'],
+      unclear:['어린이 추가 요금 미표기'], conditions:['2박 이상','9월 한정'], valid_from:null, valid_to:d }
+  ]);
+  state.demo = true;
+  render();
+}
+
+/* ---------- events ---------- */
+document.querySelectorAll('.tab').forEach(b => b.onclick = () => { state.cat = b.dataset.cat; render(); });
+document.querySelectorAll('.chip').forEach(b => b.onclick = () => { state.area = b.dataset.area; render(); });
+
+load();
+render();
+</script>
+</body>
+</html>
