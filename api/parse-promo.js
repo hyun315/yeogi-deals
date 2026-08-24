@@ -5,6 +5,12 @@
 //   ANTHROPIC_API_KEY = sk-ant-...
 // 를 반드시 추가해야 동작합니다.
 
+// Vercel Hobby 플랜 기본 제한시간은 10초라 포스터 분석이 끝나기 전에
+// 끊기는 경우가 있었습니다. 60초까지 늘려둡니다(Hobby 플랜 허용 범위).
+export const config = {
+  maxDuration: 60
+};
+
 const SYSTEM = `너는 인도네시아(자카르타·발리)의 골프장·호텔 프로모션 포스터를 한국인 거주자용 카드로 정리한다.
 
 절대 규칙:
@@ -61,7 +67,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: 'claude-sonnet-5',
         max_tokens: 1000,
         system: SYSTEM + '\n오늘 날짜: ' + (today || new Date().toISOString().slice(0, 10)),
         messages: [{
